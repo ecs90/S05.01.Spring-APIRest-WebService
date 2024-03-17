@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class MappingService implements BranchService{
+public class MappingService{
     @Autowired
     private BranchRepository branchRepository;
 
@@ -23,7 +23,7 @@ public class MappingService implements BranchService{
                 .collect(Collectors.toList());
     }
 
-    private BranchDTO convertDataIntoDTO (Branch branchData) {
+    public BranchDTO convertDataIntoDTO (Branch branchData) {
 
         BranchDTO dto = new BranchDTO();
 
@@ -35,6 +35,16 @@ public class MappingService implements BranchService{
         return dto;
     }
 
+    public Branch convertDTOIntoData (BranchDTO branchDTO) {
+        Branch branch = new Branch();
+
+        branch.setPk_branchID(branchDTO.getPk_branchID());
+        branch.setBranchName(branchDTO.getBranchName());
+        branch.setBranchCountry(branchDTO.getBranchCountry());
+
+        return branch;
+    }
+
     private boolean isEU(String country){
         try{
             EUCountries.valueOf(country.toUpperCase());
@@ -42,40 +52,5 @@ public class MappingService implements BranchService{
         } catch (Exception e) {
             return false;
         }
-    }
-
-    @Override
-    public BranchDTO addBranch(BranchDTO branchDTO) {
-        return null;
-    }
-
-    @Override
-    public BranchDTO getOneBranch(Integer idBranch) {
-        return null;
-    }
-
-    @Override
-    public BranchDTO getOneBranch(String branchName) {
-        return null;
-    }
-
-    @Override
-    public List<BranchDTO> getAllBranches() {
-        return null;
-    }
-
-    @Override
-    public BranchDTO updateBranch(int id, BranchDTO branchDTO) {
-        return null;
-    }
-
-    @Override
-    public void deleteById(Integer idBranch) {
-
-    }
-
-    @Override
-    public void deleteByName(String branchName) {
-
     }
 }

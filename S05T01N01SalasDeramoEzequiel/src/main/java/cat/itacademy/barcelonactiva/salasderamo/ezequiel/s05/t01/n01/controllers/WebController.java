@@ -1,6 +1,7 @@
 package cat.itacademy.barcelonactiva.salasderamo.ezequiel.s05.t01.n01.controllers;
 
 import cat.itacademy.barcelonactiva.salasderamo.ezequiel.s05.t01.n01.model.dto.BranchDTO;
+import cat.itacademy.barcelonactiva.salasderamo.ezequiel.s05.t01.n01.model.services.BranchService;
 import cat.itacademy.barcelonactiva.salasderamo.ezequiel.s05.t01.n01.model.services.MappingService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
+@RequestMapping
 public class WebController {
 
+    @Autowired
+    private BranchService branchService;
     @Autowired
     private MappingService mappingService;
 
@@ -23,7 +27,7 @@ public class WebController {
         return "home";
     }*/
 
-    @GetMapping({"", "/", "/branches"})
+    @GetMapping({"", "/", "branches" })
     public String listBranches(Model model) {
         List<BranchDTO> branches = mappingService.getAllUsersLocation();
         model.addAttribute("branches", branches);
@@ -35,7 +39,7 @@ public class WebController {
 
         try {
             int branchID = Integer.parseInt(id);
-            BranchDTO branchDTO = mappingService.getOneBranch(branchID);
+            BranchDTO branchDTO = branchService.getOneBranch(branchID);
 
             if (branchDTO != null) {
                 model.addAttribute("branches", Arrays.asList(branchDTO));
@@ -72,7 +76,7 @@ public class WebController {
         }  else {
 
             try {
-                mappingService.addBranch(branchDTO);
+                branchService.addBranch(mappingService.convertDTOIntoData(branchDTO));
                 return "redirect:/branches";
 
             } catch (RuntimeException e) {
@@ -84,7 +88,7 @@ public class WebController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable int id, Model model) {
-        BranchDTO branchDTO = mappingService.getOneBranch(id);
+        BranchDTO branchDTO = branchService.getOneBranch(id);
         if (branchDTO != null) {
             model.addAttribute("branchDTO", branchDTO);
             return "editBranch";
@@ -104,7 +108,7 @@ public class WebController {
 
         } else{
             try {
-                mappingService.updateBranch(id, branchDTO);
+                branchService.updateBranch(id, mappingService.convertDTOIntoData(branchDTO));
                 return "redirect:/branches";
 
             } catch (Exception e) {
@@ -116,7 +120,7 @@ public class WebController {
     @GetMapping("/delete/{id}")
     public String deleteBranch(@PathVariable int id) {
         try {
-            mappingService.deleteById(id);
+            branchService.deleteById(id);
             return "redirect:/branches";
 
         } catch (Exception e) {

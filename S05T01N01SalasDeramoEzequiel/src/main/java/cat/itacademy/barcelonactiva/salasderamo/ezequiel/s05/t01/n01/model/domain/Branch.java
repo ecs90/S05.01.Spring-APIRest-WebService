@@ -16,6 +16,10 @@ public class Branch {
     public Branch() {
     }
 
+    public void setPk_branchID(Integer pk_branchID) {
+        this.pk_branchID = pk_branchID;
+    }
+
     public Branch(String branchName, String branchCountry) {
         this.branchName = branchName;
         this.branchCountry = branchCountry;

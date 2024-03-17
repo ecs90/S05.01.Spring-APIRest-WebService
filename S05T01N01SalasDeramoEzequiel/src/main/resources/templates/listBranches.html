@@ -86,7 +86,7 @@
   <a class="add-btn" th:href="@{/add}">Add Branch</a>
 
   <!-- Formulario de búsqueda por ID -->
-  <form th:action="@{/branches/search/{id}}" method="get" style="display: inline-block; margin-left: 10px;">
+  <form th:action="@{/search/{id}}" method="get" style="display: inline-block; margin-left: 10px;">
     <label for="idSearch">Search by ID:</label>
     <input type="number" id="idSearch" name="id" />
     <button type="submit">Search</button>
@@ -113,7 +113,7 @@
         <td th:text="${branch.branchType}"></td>
         <td>
           <!-- Enlaces o botones para editar y borrar -->
-          <a class="edit-btn" th:href="@{/branches/edit/{id}(id=${branch.pk_branchID})}">Edit</a>
+          <a class="edit-btn" th:href="@{/edit/{id}(id=${branch.pk_branchID})}">Edit</a>
           |
           <a class="delete-btn" th:attr="data-branchid=${branch.pk_branchID}" onclick="safeDelete(this.getAttribute('data-branchid'))">Delete</a>
         </td>
